@@ -127,6 +127,12 @@ async function clean() {
     console.log('Deleted directories >>> ', foldersToDelete);
 }
 
+exports.brave = series(brave, serve);
+exports.chrome = series(chrome, serve);
+exports.edge = series(edge, serve);
+exports.firefox = series(firefox, serve);
+exports.safari = series(safari, serve);
+exports.allBrowsers = series(allBrowserSelections, serve);
 exports.compileCSSForDev = compileCSSForDev;
 exports.lintCSS = lintCSS;
 exports.lintJS = lintJS;
