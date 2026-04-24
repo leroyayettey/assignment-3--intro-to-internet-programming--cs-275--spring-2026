@@ -86,7 +86,7 @@ let openMenu = () => {
         nav.style.position = 'fixed';
         nav.style.top = '0';
         nav.style.left = '0';
-        nav.style.transform = 'translateX(-100%)';
+        nav.style.transform = 'translateX(0)';
         nav.style.width = '260px';
         nav.style.height = '100%';
         nav.style.background = '#2a2a4e';
@@ -118,7 +118,7 @@ window.addEventListener('resize', () => {
             nav.style.position = 'fixed';
             nav.style.top = '0';
             nav.style.left = '0';
-            nav.style.transform = 'translateX(-100%)';
+            nav.style.transform = 'translateX(0)';
             nav.style.width = '260px';
             nav.style.height = '100%';
             nav.style.background = '#2a2a4e';
