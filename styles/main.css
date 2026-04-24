@@ -1,54 +1,243 @@
-h1{
-    text-align: center;
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #1a1a2e;
+    font-family: "Funnel Display", sans-serif;
+}
+
+h1, h2, h3, h4 {
     font-family: "Stack Sans Notch", sans-serif;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
     font-weight: 700;
-    font-size: 3rem;
     color: #7cb5eb;
 }
 
-h2{
+h2 {
     text-align: center;
-    font-family: "Stack Sans Notch", sans-serif;
+    font-size: 1.3rem;
     font-weight: 500;
-    font-size: 1.5rem;
     font-style: italic;
     color: #ffffff;
 }
 
-h3{
+h3 {
     text-align: center;
-    font-family: "Funnel Display", sans-serif;
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     font-weight: 500;
     color: #d0e8ff;
 }
 
-h4{
+h4 {
     text-align: center;
-    font-family: "Funnel Display", sans-serif;
-    font-size: 1.75rem;
+    font-size: 1.3rem;
     font-weight: 500;
     font-style: italic;
     color: #a4b4fa;
 }
 
-a{
-    text-align: center;
+a {
     font-family: "Funnel Display", sans-serif;
-    font-size: 1.25rem;
+    text-align: center;
+    font-size: 1rem;
     font-weight: 500;
     color: #d0e8ff;
     border: 1px solid #d0e8ff;
-    padding: 0.50rem 0.75rem 0.75rem;
+    padding: 0.5rem 0.75rem;
     text-decoration: none;
-    background:rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1);
 }
 
-p{
-    text-align: center;
+p {
     font-family: "Funnel Display", sans-serif;
-    font-size: 1.2rem;
+    text-align: center;
+    font-size: 1rem;
     font-weight: 300;
     color: #ffffff;
-    padding:10px 300px 10px ;
+    padding: 10px 200px;
+    line-height: 1.6;
+}
+
+q {
+    font-family: "Funnel Display", sans-serif;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 300;
+    color: #ffffff;
+    padding: 10px 200px;
+    line-height: 1.6;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    background: #1a1a2e;
+    z-index: 997;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+#js-triggers {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    list-style: none;
+    padding: 15px 20px;
+    margin: 0;
+}
+
+nav {
+    background: #1a1a2e;
+    transition: all 500ms ease;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 998;
+}
+
+nav.menu-visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+nav:not(.side-tray-mode) {
+    position: absolute;
+    transform-origin: top;
+    transform: scaleY(0);
+}
+
+nav:not(.side-tray-mode).menu-visible {
+    transform: scaleY(1);
+}
+
+nav.side-tray-mode {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    height: 100%;
+    transform: translateX(-100%);
+}
+
+nav.side-tray-mode.menu-visible {
+    transform: translateX(0);
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    margin: 0;
+}
+
+nav.side-tray-mode ul {
+    flex-direction: column;
+    padding: 20px;
+}
+
+nav ul li ul {
+    display: none;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 500ms ease;
+    z-index: 1000;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-container {
+    background: #2a2a4e;
+    border-radius: 12px;
+    max-width: 400px;
+    width: 90%;
+    transform: scale(0.9);
+    transition: transform 500ms ease;
+}
+
+.modal-overlay.active .modal-container {
+    transform: scale(1);
+}
+
+.modal-content {
+    padding: 30px;
+    position: relative;
+}
+
+.modal-content h3 {
+    margin: 0 0 15px 0;
+    color: #7cb5eb;
+}
+
+.modal-content p {
+    padding: 0;
+    margin: 0;
+}
+
+.modal-content::after {
+    content: "✕";
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #999;
+}
+
+.modal-content::after:hover {
+    color: #7cb5eb;
+}
+
+@media (max-width: 736px) {
+    p {
+        padding: 10px 30px;
+    }
+
+    q {
+        padding: 10px 30px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    #js-triggers {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    p {
+        padding: 10px 15px;
+    }
+
+    q {
+        padding: 10px 15px;
+    }
 }

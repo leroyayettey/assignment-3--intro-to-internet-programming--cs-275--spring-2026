@@ -17,11 +17,13 @@ let isModalOpen = false;
 let openModal = () => {
     modalOverlay.classList.add('active');
     isModalOpen = true;
+    document.body.style.overflow = 'hidden';
 }
 
 let closeModal = () => {
     modalOverlay.classList.remove('active');
     isModalOpen = false;
+    document.body.style.overflow = '';
 }
 
 modalOverlay.addEventListener('click', (e) => {
@@ -36,40 +38,63 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-let menuPanel = document.createElement('div');
-menuPanel.className = 'menu-panel';
-
-menuPanel.innerHTML = '<div class="menu-content"><h4>Menu</h4><ul><li><a href="#">Home</a></li><li><a href="#">About</a></li><li><a href="#">Services</a></li><li><a href="#">Contact</a></li></ul></div>';
-
-document.body.appendChild(menuPanel);
-
+let nav = document.querySelector('nav');
+let header = document.querySelector('header');
 let isMenuOpen = false;
-
 let getWidth = () => window.innerWidth;
+
+let updateMenuPosition = () => {
+    if (isMenuOpen && getWidth() > 736) {
+        let headerBottom = header.getBoundingClientRect().bottom;
+        nav.style.top = headerBottom + 'px';
+        nav.style.left = '50%';
+        nav.style.transform = 'translateX(-50%)';
+    }
+}
 
 let closeMenu = () => {
     isMenuOpen = false;
-    menuPanel.classList.remove('active');
+    nav.classList.remove('menu-visible');
+    nav.style.position = '';
+    nav.style.top = '';
+    nav.style.left = '';
+    nav.style.transform = '';
+    nav.style.width = '';
+    nav.style.background = '';
+    nav.style.borderRadius = '';
+    nav.style.boxShadow = '';
+    nav.style.height = '';
 }
 
 let openMenu = () => {
     isMenuOpen = true;
 
     if (getWidth() > 736) {
-        menuPanel.classList.remove('side-tray-mode');
-        let header = document.querySelector('header');
+        nav.classList.remove('side-tray-mode');
         let headerBottom = header.getBoundingClientRect().bottom;
-        menuPanel.style.top = headerBottom + 'px';
-        menuPanel.style.left = '50%';
-        menuPanel.style.transform = 'translateX(-50%)';
+        nav.style.position = 'absolute';
+        nav.style.top = headerBottom + 'px';
+        nav.style.left = '50%';
+        nav.style.transform = 'translateX(-50%)';
+        nav.style.width = 'auto';
+        nav.style.background = '#2a2a4e';
+        nav.style.borderRadius = '8px';
+        nav.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.3)';
+        nav.style.height = 'auto';
     } else {
-        menuPanel.classList.add('side-tray-mode');
-        menuPanel.style.top = '0';
-        menuPanel.style.left = '0';
-        menuPanel.style.transform = 'none';
+        nav.classList.add('side-tray-mode');
+        nav.style.position = 'fixed';
+        nav.style.top = '0';
+        nav.style.left = '0';
+        nav.style.transform = 'translateX(-100%)';
+        nav.style.width = '260px';
+        nav.style.height = '100%';
+        nav.style.background = '#2a2a4e';
+        nav.style.borderRadius = '0';
+        nav.style.boxShadow = 'none';
     }
 
-    menuPanel.classList.add('active');
+    nav.classList.add('menu-visible');
 }
 
 let toggleMenu = () => {
@@ -80,31 +105,53 @@ let toggleMenu = () => {
     }
 }
 
-window.addEventListener('resize', () => {
-    if (isMenuOpen) {
-        closeMenu();
-        openMenu();
+window.addEventListener('scroll', () => {
+    if (isMenuOpen && getWidth() > 736) {
+        updateMenuPosition();
     }
 });
 
-let init = () => {
-    let triggers = document.getElementById('js-triggers');
-    let menuBtn = triggers.querySelector('li:first-child a');
-    let modalBtn = triggers.querySelector('li:last-child a');
-
-    menuBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        toggleMenu();
-    });
-
-    modalBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        openModal();
-    });
-
-    if (getWidth() <= 736) {
-        menuPanel.classList.add('side-tray-mode');
+window.addEventListener('resize', () => {
+    if (isMenuOpen) {
+        if (getWidth() <= 736) {
+            nav.classList.add('side-tray-mode');
+            nav.style.position = 'fixed';
+            nav.style.top = '0';
+            nav.style.left = '0';
+            nav.style.transform = 'translateX(-100%)';
+            nav.style.width = '260px';
+            nav.style.height = '100%';
+            nav.style.background = '#2a2a4e';
+            nav.style.borderRadius = '0';
+        } else {
+            nav.classList.remove('side-tray-mode');
+            let headerBottom = header.getBoundingClientRect().bottom;
+            nav.style.position = 'absolute';
+            nav.style.top = headerBottom + 'px';
+            nav.style.left = '50%';
+            nav.style.transform = 'translateX(-50%)';
+            nav.style.width = 'auto';
+            nav.style.background = '#2a2a4e';
+            nav.style.borderRadius = '8px';
+            nav.style.height = 'auto';
+        }
     }
-}
+});
 
-init();
+let triggers = document.getElementById('js-triggers');
+let menuBtn = triggers.querySelector('li:first-child a');
+let modalBtn = triggers.querySelector('li:last-child a');
+
+menuBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleMenu();
+});
+
+modalBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    openModal();
+});
+
+if (getWidth() <= 736) {
+    nav.classList.add('side-tray-mode');
+}
